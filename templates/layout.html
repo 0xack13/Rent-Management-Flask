@@ -1,0 +1,51 @@
+<!doctype html>
+<title>Flaskr</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootswatch.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<script type=text/javascript src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='knockout-2.3.0.debug.js') }}"></script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+<body class="preview" id="top" data-spy="scroll" data-target=".subnav" data-offset="80">
+
+
+  <!-- Navbar
+    ================================================== -->
+ <div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container">
+       <a class="brand" href="../">تحصيل المستأجرين</a>
+       <div class="nav-collapse collapse" id="main-menu">
+        <ul class="nav" id="main-menu-right">
+          <li><a onclick="pageTracker._link(this.href); return false;" href="http://news.bootswatch.com">تقرير بالمستأجرين</a></li>
+          <li><a id="swatch-link" href="../#gallery">نموذج الادخال</a></li>
+          <li>{% if not session.logged_in %}
+            <a href="{{ url_for('login') }}">الدخول</a>
+        {% else %}
+            <a href="{{ url_for('logout') }}">تسجيل الخروج</a>
+        {% endif %}</li>
+        </ul>
+       </div>
+     </div>
+   </div>
+ </div>
+
+<section id="forms">
+  <div class="row">
+    <div class="span10 offset1">
+        <h1>تحصيل المستاجرين</h1>
+            <div class="span6">
+            {% for message in get_flashed_messages() %}
+              <div class="alert alert-success">
+                <a class="close">×</a>
+                    {{ message}}
+              </div>
+            {% endfor %}  
+            </div>
+    </div>
+    {% block body %}{% endblock %}    
+    </div>
+  </section>
+  </div>
+</body>

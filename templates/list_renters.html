@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+<div class="container">
+<section id="forms">
+  <div class="row">
+    <div class="span10 offset1">
+      <div class="control-group">
+        <label class="control-label" for="input01">اسم المتأجر:</label>
+          <div class="controls"><select id="testdrop" data-bind="options: $root.distinctRenters, optionsText: distinctRenters.renterName, event: { change: selectionChanged }"></select>
+      </div>
+      <div class="control-group">
+                    <label class="control-label" for="input01">تاريخ التحصيل:</label>
+                    <div class="controls">          
+                        <select id="year" data-bind="event: { change: selectionChanged }">
+                            {% for y in range(1434,1444) %}
+                              <option>{{ y }}</option>
+                            {% endfor %}
+                        </select>
+                        <select id="month" data-bind="event: { change: selectionChanged }">
+                            {% for m in range(1,13) %}
+                              {% if m < 10 %}
+                              <option>0{{ m }}</option>
+                              {% else %}
+                              <option>{{ m }}</option>
+                              {% endif %}
+                            {% endfor %}
+                        </select>
+                        <select id="day" data-bind="event: { change: selectionChanged }">
+                            {% for d in range(1,32) %}
+                               {% if d < 10 %}
+                                <option>0{{ d }}</option>
+                               {% else %}
+                                <option>{{ d }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                  </div>
+        </div>
+  </div>
+</section>
+
+<!-- using knockoutjs framework -->
+<section id="tables">
+    <h2>اخر عمليات تحصيل</h1>
+  <div class="control">
+      <a id="dlink"  style="display:none;"></a><input type="button" onclick="tableToExcel('tablename', 'name', 'myfile.xls')" value="تحميل اكسل">
+  </div>
+  <br>
+  <table id="tablename" class="table table-bordered table-striped table-hover fruitGrid">
+    <thead>
+      <tr>
+        <th class="headRow headColumn">ID</th>
+        <th class="headRow headColumn">الاسم بالكامل</th>
+        <th class="headRow headColumn">مبلغ التحصيل</th>
+        <th class="headRow headColumn">تاريخ التحصيل</th>
+      </tr>
+    </thead>
+    <!-- <tbody data-bind="foreach: $root.rentsByRenterArray()"> -->
+    <tbody data-bind="foreach: $root.rentsByRenterArray()">
+    <tr>
+      <td class="rowItem" >
+           <label class="read" data-bind="text: $index() + 1" />
+      </td>
+      <td class="rowItem" >
+           <label class="read" data-bind="text: $data.renterName" />
+      </td>
+      <td class="rowItem" >
+           <label class="read" data-bind="text: $data.rentAmount" />
+      </td>
+      <td class="rowItem" >
+           <label class="read" data-bind="text: $data.rentAmountDate" />
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p class='grandTotal'>
+    المبلغ الاجمالي: <span data-bind='text: formatCurrency(grandTotal())'> </span>
+</p>
+</section>
+
+</div>
+    {% endif %}
+{% endblock %}    

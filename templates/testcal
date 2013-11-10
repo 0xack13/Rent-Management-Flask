@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+        <form action="{{ url_for('add_rent') }}" method=post class=add-entry>
+            <dl>
+                <dt>اسم المتأجر:
+                <dd><input type=text size=30 name=renterNameTxt>
+                <dt>مبلغ التحصيل:
+                <dd><input type=text size=30 name=rentAmountTxt>        
+                <dt>تاريخ التحصيل:
+                <dd>
+<select name="year">
+    {% for y in range(1434,1444) %}
+      <option>{{ y }}</option>
+    {% endfor %}
+</select>
+<select name="month">
+    {% for m in range(1,13) %}
+      <option>{{ m }}</option>
+    {% endfor %}
+</select>
+<select name="day">
+    {% for d in range(1,32) %}
+      <option>{{ d }}</option>
+    {% endfor %}
+</select>
+                <dd><input type=submit value=حفظ>
+            </dl>
+        <form>
+    {% endif %}
+    <ul class=renters>
+        {% for renter in renters %}
+            <li><h2>{{ renter.renterName }}</h2>{{ renter.rentAmount|safe }}<br>{{ renter.rentAmountDate }}
+        {% else %}
+            <li><em>Unbelieveable. No renters here so far</em>
+        {% endfor %}
+    </ul>
+<script type=text/javascript>
+$(function() {
+//  $.calendars.picker.setDefaults({renderer: $.calendars.picker.themeRollerRenderer}); // Requires jquery.calendars.picker.ext.js
+    $('#rentAmountDateTxt').calendarsPicker({calendar: $.calendars.instance('islamic', 'ar')});
+    $('#rentAmountDateTxt').val('').calendarsPicker('option', 
+        {dateFormat: 'yyyy-mm-dd'}); 
+});
+</script>
+{% endblock %}    
